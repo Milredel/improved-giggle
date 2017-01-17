@@ -1,0 +1,14 @@
+{
+    "name": "morgan/discord_bot",
+    "description": "A discord bot",
+    "authors": [
+        {
+            "name": "morgan.fromentin",
+            "email": "morgan.fromentin@ezbeez.eu"
+        }
+    ],
+    "require": {
+        "team-reflex/discord-php": "^4.0",
+        "lp-digital/github-event-parser": "^0.8.0"
+    }
+}
