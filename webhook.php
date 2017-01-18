@@ -14,10 +14,14 @@ if ('POST' === $_SERVER['REQUEST_METHOD']) {
     $event       = $resolver->resolve($decodedJson); // for ex, we get instance of PullRequestEvent
     //file_put_contents('events.log', PHP_EOL. get_class($event)." - ".$event->getRepository()->getFullName()." : ".$event::name(), FILE_APPEND | LOCK_EX);
     if (($event instanceof Lpdigital\Github\EventType\PushEvent) || ($event instanceof Lpdigital\Github\EventType\PullRequestEvent)) {
-        file_put_contents('events.log', PHP_EOL. get_class($event)." - ".$event->getRepository()->getFullName()." : ".$event::name(), FILE_APPEND | LOCK_EX);
-        $msg = "otototazeapozieazoe";
+        //file_put_contents('events.log', PHP_EOL. get_class($event)." - ".$event->getRepository()->getFullName()." : ".$event::name(), FILE_APPEND | LOCK_EX);
+        if ($event instanceof Lpdigital\Github\EventType\PushEvent) {
+            $msg = "Un nouveau commit a été fait sur $event->getRepository()->getFullName() : $event->commits[0]->getUrl()";
+        } else if ($event instanceof Lpdigital\Github\EventType\PullRequestEvent) {
+            $msg = "Un nouveau pull request a été fait sur $event->getRepository()->getFullName() : $event->pullRequest->getHtmlUrl()";
+        }
         $data = json_encode(array(
-            'content' => $msg
+            'content' => $msg,
         ));
         do_post_request(WEBHOOKURL, $data, "content-type: application/json");
     }
