@@ -16,17 +16,27 @@ if ('POST' === $_SERVER['REQUEST_METHOD']) {
     if (($event instanceof Lpdigital\Github\EventType\PushEvent) || ($event instanceof Lpdigital\Github\EventType\PullRequestEvent)) {
         file_put_contents('events.log', PHP_EOL. get_class($event)." - ".$event->getRepository()->getFullName()." : ".$event::name(), FILE_APPEND | LOCK_EX);
         // cURL away!
-        $curl = curl_init();
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => WEBHOOKURL,
-            CURLOPT_HTTPHEADER => array(
-                'Content-Type: application/json;charset=UTF-8'
-            ),
-            CURLOPT_POST => 1,
-            CURLOPT_POSTFIELDS => file_get_contents('php://input'),
-            CURLOPT_RETURNTRANSFER => true
-        ));
-        $response = curl_exec($curl);
-        curl_close($curl);
+        do_post_request(WEBHOOKURL, file_get_contents('php://input'), "content-type: application/json");
     }
+}
+
+function do_post_request($url, $data, $optional_headers = null)
+{
+    $params = array('http' => array(
+              'method' => 'POST',
+              'content' => $data
+            ));
+    if ($optional_headers !== null) {
+        $params['http']['header'] = $optional_headers;
+    }
+    $ctx = stream_context_create($params);
+    $fp = @fopen($url, 'rb', false, $ctx);
+    if (!$fp) {
+        throw new Exception("Problem with $url, $php_errormsg");
+    }
+    $response = @stream_get_contents($fp);
+    if ($response === false) {
+        throw new Exception("Problem reading data from $url, $php_errormsg");
+    }
+    return $response;
 }
