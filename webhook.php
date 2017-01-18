@@ -4,7 +4,7 @@ require_once './vendor/autoload.php';
 
 use Lpdigital\Github\Parser\WebhookResolver;
 
-const WEBHOOKURL = "https://discordapp.com/api/webhooks/270664905894526986/QxJiz05kbdZ3A6xvGkVYfa5f7lz1bE4QlKv81dRC7KrYFv77_nAonRzch91pS29XtTTg/github";
+const WEBHOOKURL = "https://discordapp.com/api/webhooks/270664905894526986/QxJiz05kbdZ3A6xvGkVYfa5f7lz1bE4QlKv81dRC7KrYFv77_nAonRzch91pS29XtTTg";
 
 // GitHub send data using POST method
 if ('POST' === $_SERVER['REQUEST_METHOD']) {
@@ -15,8 +15,11 @@ if ('POST' === $_SERVER['REQUEST_METHOD']) {
     //file_put_contents('events.log', PHP_EOL. get_class($event)." - ".$event->getRepository()->getFullName()." : ".$event::name(), FILE_APPEND | LOCK_EX);
     if (($event instanceof Lpdigital\Github\EventType\PushEvent) || ($event instanceof Lpdigital\Github\EventType\PullRequestEvent)) {
         file_put_contents('events.log', PHP_EOL. get_class($event)." - ".$event->getRepository()->getFullName()." : ".$event::name(), FILE_APPEND | LOCK_EX);
-        // cURL away!
-        do_post_request(WEBHOOKURL, file_get_contents('php://input'), "content-type: application/json");
+        $msg = "otototazeapozieazoe";
+        $data = json_encode(array(
+            'content' => $msg
+        ));
+        do_post_request(WEBHOOKURL, $data, "content-type: application/json");
     }
 }
 
