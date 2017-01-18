@@ -16,9 +16,9 @@ if ('POST' === $_SERVER['REQUEST_METHOD']) {
     if (($event instanceof Lpdigital\Github\EventType\PushEvent) || ($event instanceof Lpdigital\Github\EventType\PullRequestEvent)) {
         //file_put_contents('events.log', PHP_EOL. get_class($event)." - ".$event->getRepository()->getFullName()." : ".$event::name(), FILE_APPEND | LOCK_EX);
         if ($event instanceof Lpdigital\Github\EventType\PushEvent) {
-            $msg = "Un nouveau commit a été fait sur $event->getRepository()->getFullName() : $event->commits[0]->getUrl()";
+            $msg = "Un nouveau commit a été fait sur ".$event->getRepository()->getFullName()." : ".$event->commits[0]->getUrl();
         } else if ($event instanceof Lpdigital\Github\EventType\PullRequestEvent) {
-            $msg = "Un nouveau pull request a été fait sur $event->getRepository()->getFullName() : $event->pullRequest->getHtmlUrl()";
+            $msg = "Un nouveau pull request a été fait sur ".$event->getRepository()->getFullName()." : ".$event->pullRequest->getHtmlUrl();
         }
         $data = json_encode(array(
             'content' => $msg,
