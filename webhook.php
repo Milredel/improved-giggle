@@ -4,7 +4,7 @@ require_once './vendor/autoload.php';
 
 use Lpdigital\Github\Parser\WebhookResolver;
 
-const WEBHOOKURL = "https://discordapp.com/api/webhooks/270664905894526986/QxJiz05kbdZ3A6xvGkVYfa5f7lz1bE4QlKv81dRC7KrYFv77_nAonRzch91pS29XtTTg";
+const WEBHOOKURL = "https://discordapp.com/api/webhooks/XXXXXXXXX/YYYYYYYYY";
 
 // GitHub send data using POST method
 if ('POST' === $_SERVER['REQUEST_METHOD']) {
