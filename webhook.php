@@ -18,7 +18,7 @@ if ('POST' === $_SERVER['REQUEST_METHOD']) {
         if ($event instanceof Lpdigital\Github\EventType\PushEvent) {
             $msg = "Un nouveau commit a été fait sur ".$event->getRepository()->getFullName()." : ";
             foreach ($event->commits as $commit) {
-                $msg .= $commit->getUrl()." ";
+                $msg .= $commit["url"]." ";
             }
         } else if ($event instanceof Lpdigital\Github\EventType\PullRequestEvent) {
             $msg = "Un nouveau pull request a été fait sur ".$event->getRepository()->getFullName()." : ".$event->pullRequest->getHtmlUrl();
